@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 import LoginForm from '../components/Login/LoginForm';
 
 // SCSS Style File of Login
@@ -26,12 +28,20 @@ class Login extends Component {
             &nbsp;
             <b>Join our community!</b>
           </p>
-          <button type="button" className="btn btn-sm btn-success w-25 mx-auto">Sign Up</button>
+          <Link
+            to="/register"
+            className="btn btn-sm btn-success w-25 mx-auto"
+          >
+            Sign Up
+          </Link>
           <p className="mt-5">Trouble Logging?</p>
         </div>
       </div>
     );
   }
 }
+
+Login.propTypes = {
+};
 
 export default Login;

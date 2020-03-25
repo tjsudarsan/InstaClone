@@ -1,0 +1,17 @@
+.register-container {
+  min-height: 100vh;
+  background-color: black;
+
+  .info-container {
+    color: white;
+  }
+
+  .register-form-container {
+    background-color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
