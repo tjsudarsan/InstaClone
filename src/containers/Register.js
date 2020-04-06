@@ -32,7 +32,7 @@ class Register extends Component {
             className="btn btn-sm btn-link"
             onClick={() => this.props.history.push('/')}
           >
-            Already a user? Logim
+            Already a user? Login
           </button>
         </div>
       </div>

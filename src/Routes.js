@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 
 // Router Pkg
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter, Switch, Route,
+} from 'react-router-dom';
 
 // Containers
 import Login from './containers/Login';
 import Register from './containers/Register';
+import Feeds from './containers/Feeds';
 
 // Not Found 404
 import NotFound from './containers/NotFound';
+
+// AuthHOC
+import AuthHOC from './middlewares/AuthHOC';
 
 class Routes extends Component {
   constructor(props) {
@@ -22,8 +28,9 @@ class Routes extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/" component={Login} exact />
-          <Route path="/register" component={Register} exact />
+          <Route path="/" component={AuthHOC(Login, '/')} exact />
+          <Route path="/register" component={AuthHOC(Register, '/register')} exact />
+          <Route path="/feeds" component={AuthHOC(Feeds, '/feeds')} exact />
           <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
