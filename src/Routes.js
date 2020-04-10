@@ -14,7 +14,8 @@ import Feeds from './containers/Feeds';
 import NotFound from './containers/NotFound';
 
 // AuthHOC
-import AuthHOC from './middlewares/AuthHOC';
+import AfterLoginHOC from './middlewares/AfterLoginHOC';
+import BeforeLoginHOC from './middlewares/BeforeLoginHOC';
 
 class Routes extends Component {
   constructor(props) {
@@ -28,9 +29,15 @@ class Routes extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/" component={AuthHOC(Login, '/')} exact />
-          <Route path="/register" component={AuthHOC(Register, '/register')} exact />
-          <Route path="/feeds" component={AuthHOC(Feeds, '/feeds')} exact />
+          {/* Before Login which should be accessed who has not logged in */}
+          <Route path="/" component={BeforeLoginHOC(Login)} exact />
+          <Route path="/register" component={BeforeLoginHOC(Register)} exact />
+          {/* <Route path="/reset-password" component={BeforeLoginHOC(ResetPssword)} exact /> */}
+
+          {/* After Login Page which should be accessed only those who have logged in  */}
+          <Route path="/feeds" component={AfterLoginHOC(Feeds)} exact />
+
+          {/* Its Not Found Page */}
           <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
