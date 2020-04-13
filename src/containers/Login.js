@@ -34,7 +34,7 @@ class Login extends Component {
           >
             Sign Up
           </Link>
-          <p className="mt-5">Trouble Logging?</p>
+          <Link to="/reset-password" className="mt-5 btn btn-sm btn-link">Trouble Logging?</Link>
         </div>
       </div>
     );

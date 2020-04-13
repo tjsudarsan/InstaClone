@@ -39,7 +39,7 @@ class InputField extends Component {
         className={className}
         placeholder={placeholder}
         onChange={(event) => {
-          if (value) {
+          if (typeof value !== 'undefined') {
             onChange(event.target.value, event.target.name, event);
           } else {
             this.handleChange(event);
@@ -62,7 +62,7 @@ InputField.defaultProps = {
   onChange: () => {},
   onBlur: () => {},
   defaultValue: undefined,
-  value: '',
+  value: undefined,
   disabled: false,
 };
 

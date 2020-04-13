@@ -8,6 +8,7 @@ import {
 // Containers
 import Login from './containers/Login';
 import Register from './containers/Register';
+import ResetPassword from './containers/ResetPassword';
 import Feeds from './containers/Feeds';
 
 // Not Found 404
@@ -32,7 +33,7 @@ class Routes extends Component {
           {/* Before Login which should be accessed who has not logged in */}
           <Route path="/" component={BeforeLoginHOC(Login)} exact />
           <Route path="/register" component={BeforeLoginHOC(Register)} exact />
-          {/* <Route path="/reset-password" component={BeforeLoginHOC(ResetPssword)} exact /> */}
+          <Route path="/reset-password" component={BeforeLoginHOC(ResetPassword)} exact />
 
           {/* After Login Page which should be accessed only those who have logged in  */}
           <Route path="/feeds" component={AfterLoginHOC(Feeds)} exact />
