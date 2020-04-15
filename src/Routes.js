@@ -10,6 +10,9 @@ import Login from './containers/Login';
 import Register from './containers/Register';
 import ResetPassword from './containers/ResetPassword';
 import Feeds from './containers/Feeds';
+import Profile from './containers/Profile';
+import Settings from './containers/Settings';
+import Search from './containers/Search';
 
 // Not Found 404
 import NotFound from './containers/NotFound';
@@ -37,6 +40,20 @@ class Routes extends Component {
 
           {/* After Login Page which should be accessed only those who have logged in  */}
           <Route path="/feeds" component={AfterLoginHOC(Feeds)} exact />
+          <Route path="/profile" component={AfterLoginHOC(Profile)} exact />
+          <Route path="/settings" component={AfterLoginHOC(Settings)} exact />
+          <Route path="/search" component={AfterLoginHOC(Search)} exact />
+
+          {/* Logout */}
+          <Route
+            path="/logout"
+            render={() => {
+              window.localStorage.clear();
+              window.location = '/';
+              return null;
+            }}
+            exact
+          />
 
           {/* Its Not Found Page */}
           <Route component={NotFound} />

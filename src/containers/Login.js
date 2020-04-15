@@ -8,7 +8,12 @@ import '../styles/Login.scss';
 
 class Login extends Component {
   handleSubmit = (formData) => {
-    console.log(formData);
+    if (formData.emailId === 'example@email.com' && formData.password === '123456') {
+      window.localStorage.setItem('isLoggedIn', true);
+      window.location.reload();
+    } else {
+      alert('Invalid credentials');
+    }
   }
 
   render() {

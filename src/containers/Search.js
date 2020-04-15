@@ -1,14 +1,14 @@
 import React from 'react';
 import LayoutContent from '../components/LayoutContent';
 
-const Feeds = () => (
+const Search = () => (
   <LayoutContent>
     <div className="row">
       <div className="col-12">
-        Feeds
+        Search
       </div>
     </div>
   </LayoutContent>
 );
 
-export default Feeds;
+export default Search;

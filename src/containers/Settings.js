@@ -1,14 +1,14 @@
 import React from 'react';
 import LayoutContent from '../components/LayoutContent';
 
-const Feeds = () => (
+const Settings = () => (
   <LayoutContent>
     <div className="row">
       <div className="col-12">
-        Feeds
+        Settings
       </div>
     </div>
   </LayoutContent>
 );
 
-export default Feeds;
+export default Settings;
