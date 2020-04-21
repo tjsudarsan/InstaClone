@@ -1,0 +1,43 @@
+.settings {
+  background-color: white;
+
+  hr {
+    margin: 0;
+  }
+
+  .settings-item {
+    padding: 20px 50px;
+
+    hr {
+      margin: 15px 0px;
+    }
+
+    .bio-form,
+    .change-pwd-form {
+      width: 35%;
+    }
+  }
+}
+
+@media (max-width: 575.98px) {
+  .settings {
+    .settings-item {
+      padding: 20px;
+      .bio-form,
+      .change-pwd-form {
+        width: 100%;
+      }
+    }
+  }
+}
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .settings {
+    .settings-item {
+      padding: 20px;
+      .bio-form,
+      .change-pwd-form {
+        width: 100%;
+      }
+    }
+  }
+}

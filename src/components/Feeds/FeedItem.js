@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import dpImage from '../../assets/profile-placeholder.jpg';
 
 import InputField from '../InputField';
@@ -13,6 +13,14 @@ class FeedItem extends Component {
     this.state = {
       commentMessage: '',
     };
+  }
+
+  handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      // Update Operation with the server
+      console.log(this.state.commentMessage);
+    }
   }
 
   render() {
@@ -55,8 +63,9 @@ class FeedItem extends Component {
               <InputField
                 ref={this.inputFieldRef}
                 className="form-control"
-                placeholder="Add your comment"
+                placeholder="Add your comment..."
                 onChange={(value) => this.setState({ commentMessage: value })}
+                onKeyDown={this.handleEnter}
               />
             </div>
           </div>

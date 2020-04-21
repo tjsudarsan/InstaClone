@@ -3,6 +3,7 @@
 .layout-content {
   min-height: 85vh;
   padding-top: 20px;
+  margin-bottom: 20px;
 }
 
 .footer-text {
@@ -10,9 +11,25 @@
 }
 
 body {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.08);
 }
 
 hr {
   width: 100%;
+}
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {
+  .layout-content {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .layout-content {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 }

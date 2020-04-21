@@ -40,7 +40,6 @@ class Routes extends Component {
 
           {/* After Login Page which should be accessed only those who have logged in  */}
           <Route path="/feeds" component={AfterLoginHOC(Feeds)} exact />
-          <Route path="/profile" component={AfterLoginHOC(Profile)} exact />
           <Route path="/settings" component={AfterLoginHOC(Settings)} exact />
           <Route path="/search" component={AfterLoginHOC(Search)} exact />
 
@@ -56,7 +55,10 @@ class Routes extends Component {
           />
 
           {/* Its Not Found Page */}
-          <Route component={NotFound} />
+          <Route path="/404" component={NotFound} exact />
+
+          {/* Profile Page */}
+          <Route path="/:username" component={AfterLoginHOC(Profile)} exact />
         </Switch>
       </BrowserRouter>
     );

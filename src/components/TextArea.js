@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class InputField extends Component {
+class TextArea extends Component {
   constructor(props) {
     super(props);
 
@@ -29,13 +29,12 @@ class InputField extends Component {
 
   render() {
     const {
-      id, type, className, name, placeholder, onChange, onBlur, value, disabled, onKeyDown,
+      id, className, name, placeholder, onChange, onBlur, value, disabled, onKeyDown,
     } = this.props;
     return (
-      <input
+      <textarea
         id={id}
         ref={this.props.forwardRef}
-        type={type}
         name={name}
         className={className}
         placeholder={placeholder}
@@ -55,9 +54,8 @@ class InputField extends Component {
   }
 }
 
-InputField.defaultProps = {
+TextArea.defaultProps = {
   id: undefined,
-  type: 'text',
   name: undefined,
   className: 'form-control',
   placeholder: undefined,
@@ -70,9 +68,8 @@ InputField.defaultProps = {
   onKeyDown: undefined,
 };
 
-InputField.propTypes = {
+TextArea.propTypes = {
   id: PropTypes.string,
-  type: PropTypes.oneOf(['text', 'number', 'email', 'password', 'hidden']),
   name: PropTypes.string,
   className: PropTypes.string,
   placeholder: PropTypes.string,
@@ -85,4 +82,4 @@ InputField.propTypes = {
   onKeyDown: PropTypes.func,
 };
 
-export default React.forwardRef((props, ref) => <InputField {...props} forwardRef={ref} />);
+export default React.forwardRef((props, ref) => <TextArea {...props} forwardRef={ref} />);
