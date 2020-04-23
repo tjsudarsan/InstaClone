@@ -18,11 +18,94 @@ hr {
   width: 100%;
 }
 
+.user-card {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: 0.2s;
+
+  .dp-image-wrapper {
+    .dp-image {
+      height: 64px;
+      width: 64px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 100px;
+    }
+  }
+
+  .info {
+    margin-left: 20px;
+    flex: 1;
+
+    h5,
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.user-card.hover:hover {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+  transform: scale(1.01, 1.01);
+  transition: 0.2s;
+}
+
+.post-card {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: 0.2s;
+
+  .info {
+    flex: 1;
+
+    p {
+      width: 400px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow-x: hidden;
+    }
+  }
+
+  .post-image-wrapper {
+    .post-image {
+      height: 64px;
+      width: 64px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 100px;
+    }
+  }
+}
+
+.post-card.hover:hover {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+  transform: scale(1.01, 1.01);
+  transition: 0.2s;
+}
+
 // Extra small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
   .layout-content {
     padding-left: 0px;
     padding-right: 0px;
+  }
+
+  .post-card {
+    .info {
+      p {
+        width: 200px;
+      }
+    }
   }
 }
 
@@ -31,5 +114,13 @@ hr {
   .layout-content {
     padding-left: 0px;
     padding-right: 0px;
+  }
+
+  .post-card {
+    .info {
+      p {
+        width: 400px;
+      }
+    }
   }
 }

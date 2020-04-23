@@ -13,6 +13,7 @@ import Feeds from './containers/Feeds';
 import Profile from './containers/Profile';
 import Settings from './containers/Settings';
 import Search from './containers/Search';
+import Notifications from './containers/Notifications';
 
 // Not Found 404
 import NotFound from './containers/NotFound';
@@ -42,6 +43,7 @@ class Routes extends Component {
           <Route path="/feeds" component={AfterLoginHOC(Feeds)} exact />
           <Route path="/settings" component={AfterLoginHOC(Settings)} exact />
           <Route path="/search" component={AfterLoginHOC(Search)} exact />
+          <Route path="/notifications" component={AfterLoginHOC(Notifications)} exact />
 
           {/* Logout */}
           <Route

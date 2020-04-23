@@ -31,6 +31,12 @@ const Header = ({
           <i className="fas fa-search" />
         </Link>
         <Link
+          to="/notifications"
+          className={`menu-item ${location.pathname === '/notifications' ? 'active' : ''}`}
+        >
+          <i className="fas fa-bell" />
+        </Link>
+        <Link
           to="/profile"
           className={`menu-item ${location.pathname === '/profile' ? 'active' : ''}`}
         >
