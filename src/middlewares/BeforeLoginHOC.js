@@ -2,14 +2,12 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
-const BeforeLoginHOC = (ComposedComponent) => class extends Component {
+const BeforeLoginHOC = (ComposedComponent, isLoggedIn) => class extends Component {
   constructor(props) {
     super(props);
 
-    const isLoggedIn = window.localStorage.getItem('isLoggedIn');
-
     this.state = {
-      isLoggedIn: isLoggedIn === 'true',
+      isLoggedIn,
     };
   }
 
