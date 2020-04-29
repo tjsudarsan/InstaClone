@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-// Redux Connect
 import { connect } from 'react-redux';
 
 // Router Pkg
@@ -22,25 +20,33 @@ import Notifications from './containers/Notifications';
 // Not Found 404
 import NotFound from './containers/NotFound';
 
+// Loader
+import Loader from './components/Loader';
+
 // AuthHOC
 import AfterLoginHOC from './middlewares/AfterLoginHOC';
 import BeforeLoginHOC from './middlewares/BeforeLoginHOC';
 
-// Import Actions
-import { validateAuth } from './redux/actions/actions-auth';
+// ActionCreators
+import { validateAuthStatus } from './redux/actions/actions-auth';
 
 class Routes extends Component {
   constructor(props) {
     super(props);
 
-    props.validateAuth();
+    props.validateAuthStatus();
 
     this.state = {
     };
   }
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, loading } = this.props;
+    if (loading) {
+      return (
+        <Loader />
+      );
+    }
     return (
       <BrowserRouter>
         <Switch>
@@ -79,19 +85,22 @@ class Routes extends Component {
 
 Routes.defaultProps = {
   isLoggedIn: false,
+  loading: false,
 };
 
 Routes.propTypes = {
-  validateAuth: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool,
+  validateAuthStatus: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.auth.isLoggedIn,
+  loading: state.auth.loading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  validateAuth: () => dispatch(validateAuth()),
+  validateAuthStatus: () => dispatch(validateAuthStatus()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Routes);

@@ -1,0 +1,7 @@
+const SET_AUTH_STATUS = 'SET_AUTH_STATUS';
+const TOGGLE_LOADING = 'TOGGLE_LOADING';
+
+export const authActionTypes = {
+  SET_AUTH_STATUS,
+  TOGGLE_LOADING,
+};

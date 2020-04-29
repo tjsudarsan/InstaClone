@@ -1,18 +1,16 @@
-const defaultState = {
+import { authActionTypes } from '../actionTypes';
+
+const initialState = {
   loading: false,
-  error: null,
   isLoggedIn: false,
-  token: null,
-  userData: null,
 };
 
-const authReducer = (state = defaultState, actions) => {
+const authReducer = (state = initialState, actions) => {
   switch (actions.type) {
-    case 'UPDATE_LOGIN_STATUS':
-      return {
-        ...state,
-        isLoggedIn: actions.payload,
-      };
+    case authActionTypes.SET_AUTH_STATUS:
+      return { ...state, isLoggedIn: actions.payload, loading: false };
+    case authActionTypes.TOGGLE_LOADING:
+      return { ...state, loading: actions.payload };
     default: return state;
   }
 };
