@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import SendResetLinkForm from '../components/ResetPassword/SendResetLinkForm';
 import ResetPasswordForm from '../components/ResetPassword/ResetPasswordForm';
 
-import { sendPassowordResetLink } from '../redux/actions/actions-auth';
+import { sendPassowordResetLink, resetPassword } from '../redux/actions/actions-auth';
 
 // SCSS Style File of Login
 import '../styles/ResetPassword.scss';
@@ -38,7 +38,7 @@ class ResetPassword extends Component {
       ...formData,
       token: this.state.token,
     };
-    console.log(payload);
+    this.props.resetPassword(payload);
   }
 
   render() {
@@ -81,10 +81,12 @@ class ResetPassword extends Component {
 
 ResetPassword.propTypes = {
   sendResetPasswordLink: PropTypes.func.isRequired,
+  resetPassword: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   sendResetPasswordLink: (emailId) => dispatch(sendPassowordResetLink(emailId)),
+  resetPassword: (formData) => dispatch(resetPassword(formData)),
 });
 
 export default connect(null, mapDispatchToProps)(ResetPassword);

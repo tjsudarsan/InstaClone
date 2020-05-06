@@ -1,23 +1,57 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import InputField from '../InputField';
 import Button from '../Button';
+
+import { auth, credentails } from '../../lib/firebase';
+import { logout } from '../../redux/actions/actions-auth';
 
 class ChangePasswordForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      currentPassword: '',
       isCurrentPasswordValid: false,
       newPassword: '',
       repeatPassword: '',
+      errorMessage: '',
     };
   }
 
-  validateCurrentPassword = (value) => {
-    this.setState({
-      isCurrentPasswordValid: value === 'example',
-    });
+  validateCurrentPassword = async () => {
+    try {
+      const user = auth.currentUser;
+      const credentials = credentails(user.email, this.state.currentPassword);
+      await user.reauthenticateWithCredential(credentials);
+      this.setState({
+        isCurrentPasswordValid: true,
+      });
+    } catch (error) {
+      switch (error.code) {
+        case 'auth/wrong-password':
+          this.setState({
+            errorMessage: 'Wrong Password',
+          });
+          break;
+        case 'auth/too-many-requests':
+          this.setState({
+            errorMessage: 'Too many attempts! Please try again later.',
+          });
+          break;
+        default:
+          console.log(error);
+          return null;
+      }
+    }
+  }
+
+  handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.validateCurrentPassword();
+    }
   }
 
   handleSubmit = (e) => {
@@ -26,8 +60,14 @@ class ChangePasswordForm extends Component {
     if (isCurrentPasswordValid) {
       if (newPassword && repeatPassword) {
         if (newPassword === repeatPassword) {
-          this.props.onSubmit({
-            password: newPassword,
+          auth.currentUser.updatePassword(newPassword);
+          alert('Password Changed Successfully');
+          this.setState({
+            currentPassword: '',
+            isCurrentPasswordValid: false,
+            newPassword: '',
+            repeatPassword: '',
+            errorMessage: '',
           });
         } else {
           alert("Password doesn't match!");
@@ -45,8 +85,21 @@ class ChangePasswordForm extends Component {
           <InputField
             type="password"
             placeholder="Current Password"
-            onChange={this.validateCurrentPassword}
+            value={this.state.currentPassword}
+            onChange={(value) => this.setState({ currentPassword: value, errorMessage: '' })}
+            onKeyDown={this.handleKeyDown}
           />
+          <small className="text-muted">
+            Enter your current password and press
+            {' '}
+            <b>Enter</b>
+          </small>
+          {this.state.errorMessage && (
+            <>
+              <span className="text-danger">{this.state.errorMessage}</span>
+              <Button onClick={() => this.props.logout('/reset-password')}>Reset Password</Button>
+            </>
+          )}
         </div>
         {this.state.isCurrentPasswordValid && (
           <>
@@ -83,6 +136,11 @@ ChangePasswordForm.defaultProps = {};
 
 ChangePasswordForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
 };
 
-export default ChangePasswordForm;
+const mapDispatchToProps = (dispatch) => ({
+  logout: (redirectPath) => dispatch(logout(redirectPath)),
+});
+
+export default connect(null, mapDispatchToProps)(ChangePasswordForm);

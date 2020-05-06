@@ -7,7 +7,7 @@ const SecuritySettings = () => (
     <h5>Security Settings</h5>
     <hr />
     <p>Change Password</p>
-    <ChangePasswordForm onSubmit={(formData) => console.log(formData)} />
+    <ChangePasswordForm />
   </div>
 );
 
