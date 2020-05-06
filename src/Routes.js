@@ -95,7 +95,7 @@ Routes.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isLoggedIn: state.auth.isLoggedIn,
+  isLoggedIn: !!state.auth.userData?.uid,
   loading: state.auth.loading,
 });
 

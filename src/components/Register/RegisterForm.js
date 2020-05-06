@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Button from '../Button';
 import InputField from '../InputField';
+import Alert from '../Alert';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -11,23 +13,18 @@ class RegisterForm extends Component {
       name: '',
       emailId: '',
       password: '',
-      mobileNumber: '',
     };
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     const {
-      name, password, emailId, mobileNumber,
+      name, password, emailId,
     } = this.state;
-    if (name && password && emailId && mobileNumber) {
-      if (String(mobileNumber).length === 10) {
-        this.props.onSubmit({
-          name, password, emailId, mobileNumber,
-        });
-      } else {
-        alert('Invalid Mobile Number');
-      }
+    if (name && password && emailId) {
+      this.props.onSubmit({
+        name, password, emailId,
+      });
     } else {
       alert('Fill up all fields!');
     }
@@ -35,49 +32,63 @@ class RegisterForm extends Component {
 
   render() {
     return (
-      <form className="w-75 text-center" onSubmit={this.handleSubmit}>
-        <div className="form-group">
-          <InputField
-            type="text"
-            className="form-control"
-            placeholder="Enter Your Name"
-            onChange={(name) => this.setState({ name })}
-          />
-        </div>
-        <div className="form-group">
-          <InputField
-            type="email"
-            className="form-control"
-            placeholder="your-email-id@example.com"
-            onChange={(emailId) => this.setState({ emailId })}
-          />
-        </div>
-        <div className="form-group">
-          <InputField
-            type="number"
-            className="form-control"
-            placeholder="Mobile No"
-            onChange={(mobileNumber) => this.setState({ mobileNumber })}
-          />
-        </div>
-        <div className="form-group">
-          <InputField
-            type="password"
-            className="form-control"
-            placeholder="**********"
-            onChange={(password) => this.setState({ password })}
-          />
-        </div>
-        <div className="form-group">
-          <Button type="submit" className="btn btn-sm btn-success px-4">Register</Button>
-        </div>
-      </form>
+      <>
+        <Alert show={!!this.props.formError} type="danger" message={this.props.formError} />
+        <form className="w-75 text-center" onSubmit={this.handleSubmit}>
+          <div className="form-group">
+            <InputField
+              type="text"
+              className="form-control"
+              placeholder="Enter Your Name"
+              onChange={(name) => this.setState({ name })}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              type="email"
+              className="form-control"
+              placeholder="your-email-id@example.com"
+              onChange={(emailId) => this.setState({ emailId })}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              type="password"
+              className="form-control"
+              placeholder="**********"
+              onChange={(password) => this.setState({ password })}
+            />
+          </div>
+          <div className="form-group">
+            <Button
+              type="submit"
+              loading={this.props.formLoading}
+              loadingText="Registering..."
+              className="btn btn-sm btn-success px-4"
+            >
+              Register
+            </Button>
+          </div>
+        </form>
+      </>
     );
   }
 }
 
-RegisterForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+RegisterForm.defaultProps = {
+  formLoading: false,
+  formError: null,
 };
 
-export default RegisterForm;
+RegisterForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  formLoading: PropTypes.bool,
+  formError: PropTypes.string,
+};
+
+const mapStateToProps = (state) => ({
+  formLoading: state.auth.formLoading,
+  formError: state.auth.formError,
+});
+
+export default connect(mapStateToProps)(RegisterForm);
