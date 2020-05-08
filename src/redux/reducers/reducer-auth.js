@@ -1,7 +1,7 @@
 import { authActionTypes } from '../actionTypes';
 
 const initialState = {
-  loading: false,
+  loading: true,
   formLoading: false,
   formError: null,
   userData: null,

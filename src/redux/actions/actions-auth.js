@@ -1,5 +1,5 @@
 import { authActionTypes } from '../actionTypes';
-import { auth } from '../../lib/firebase';
+import { auth, db } from '../../lib/firebase';
 
 export const validateAuthStatus = () => async (dispatch) => {
   dispatch({
@@ -8,9 +8,16 @@ export const validateAuthStatus = () => async (dispatch) => {
   });
   auth.onAuthStateChanged((userData) => {
     if (userData) {
-      dispatch({
-        type: authActionTypes.SET_AUTH_STATUS,
-        payload: userData,
+      db.collection('users').doc(userData.uid).onSnapshot((rec) => {
+        if (rec.exists) {
+          dispatch({
+            type: authActionTypes.SET_AUTH_STATUS,
+            payload: {
+              uid: userData.uid,
+              ...rec.data(),
+            },
+          });
+        }
       });
     } else {
       dispatch({
@@ -49,6 +56,17 @@ export const register = (formData) => async (dispatch) => {
     const result = await auth.createUserWithEmailAndPassword(emailId, password);
     result.user.updateProfile({
       displayName: name,
+    });
+    db.collection('users').doc(result.user.uid).set({
+      username: name,
+      emailId,
+      profilePic: null,
+      followers: 0,
+      following: 0,
+      posts: 0,
+      timeStamp: new Date().toISOString(),
+      bio: null,
+      isPrivate: true,
     });
     result.user.sendEmailVerification();
     dispatch({

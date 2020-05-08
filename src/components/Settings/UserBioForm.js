@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import InputField from '../InputField';
 import TextArea from '../TextArea';
@@ -10,19 +11,20 @@ class UserBioForm extends Component {
     super(props);
 
     this.state = {
-      username: '',
-      emailId: '',
-      bio: '',
+      username: props.userData.username,
+      bio: props.userData.bio,
     };
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { username, emailId, bio } = this.state;
-    if (username && emailId && bio) {
+    const { username, bio } = this.state;
+    if (username) {
       this.props.onSubmit({
-        username, emailId, bio,
+        username, bio,
       });
+    } else {
+      alert('Pease Enter your Username');
     }
   }
 
@@ -35,6 +37,7 @@ class UserBioForm extends Component {
             id="username"
             placeholder="Choose your username"
             onChange={(value) => this.setState({ username: value })}
+            value={this.props.userData.username}
           />
         </div>
         <div className="form-group">
@@ -43,7 +46,8 @@ class UserBioForm extends Component {
             id="emailAddress"
             type="email"
             placeholder="Your Email Address"
-            onChange={(value) => this.setState({ emailId: value })}
+            value={this.props.userData?.emailId}
+            disabled
           />
         </div>
         <div className="form-group">
@@ -52,6 +56,7 @@ class UserBioForm extends Component {
             id="bio"
             placeholder="Something about you.."
             onChange={(value) => this.setState({ bio: value })}
+            value={this.props.userData.bio}
           />
         </div>
         <Button
@@ -68,6 +73,11 @@ UserBioForm.defaultProps = {};
 
 UserBioForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  userData: PropTypes.object.isRequired,
 };
 
-export default UserBioForm;
+const mapStateToProps = (state) => ({
+  userData: state.auth.userData,
+});
+
+export default connect(mapStateToProps)(UserBioForm);
