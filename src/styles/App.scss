@@ -32,8 +32,9 @@ hr {
     .dp-image {
       height: 64px;
       width: 64px;
-      object-fit: cover;
+      object-fit: contain;
       object-position: center;
+      background-color: black;
       border-radius: 100px;
     }
   }
@@ -45,6 +46,13 @@ hr {
     h5,
     p {
       margin: 0;
+    }
+
+    p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 200px;
     }
   }
 }

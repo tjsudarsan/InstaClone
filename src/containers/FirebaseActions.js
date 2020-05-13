@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { auth } from '../lib/firebase';
 
-const FirebaseActions = (props) => {
+const FirebaseActions = () => {
   const params = new URLSearchParams(window.location.search);
 
   switch (params.get('mode')) {

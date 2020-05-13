@@ -53,12 +53,21 @@ export const register = (formData) => async (dispatch) => {
     const {
       emailId, password, name,
     } = formData;
+    let isUserNameAvailable = true;
+    await db.collection('users').where('username', '==', name.toLowerCase()).get().then((snapShot) => {
+      isUserNameAvailable = !snapShot.docs.length;
+    });
+
+    if (!isUserNameAvailable) {
+      throw new Error('Name Not Availabe');
+    }
+
     const result = await auth.createUserWithEmailAndPassword(emailId, password);
     result.user.updateProfile({
       displayName: name,
     });
     db.collection('users').doc(result.user.uid).set({
-      username: name,
+      username: String(name).toLowerCase(),
       emailId,
       profilePic: null,
       followers: 0,
@@ -67,6 +76,7 @@ export const register = (formData) => async (dispatch) => {
       timeStamp: new Date().toISOString(),
       bio: null,
       isPrivate: true,
+      friends: [],
     });
     result.user.sendEmailVerification();
     dispatch({

@@ -4,63 +4,114 @@ import { connect } from 'react-redux';
 
 import Button from '../Button';
 
+import { storage, db } from '../../lib/firebase';
+
 import dpPlaceholder from '../../assets/profile-placeholder.jpg';
 
 import { logout } from '../../redux/actions/actions-auth';
 
 const UserInfo = ({
-  userData: {
+  profileData,
+  userData,
+  isOtherUser,
+  ...props
+}) => {
+  let details = profileData;
+
+  if (isOtherUser) {
+    details = userData;
+  }
+
+  const {
     username,
     followers,
     following,
     bio,
     profilePic,
     posts,
-  },
-  ...props
-}) => (
-  <div className="row user-info">
-    <div className="col-12 col-md-4">
-      <img src={profilePic || dpPlaceholder} alt="" className="dp-image" />
+    uid,
+  } = details;
+
+  return (
+    <div className="row user-info">
+      <div className="col-12 col-md-4">
+        {!isOtherUser && (
+          <input
+            id="profilePicUploader"
+            type="file"
+            className="d-none"
+            onChange={(event) => {
+              const file = event.target.files[0];
+              const profilePicRef = storage.ref().child(`profilePics/${uid}`);
+              profilePicRef.put(file).then(() => {
+                profilePicRef.getDownloadURL().then((url) => {
+                  db.collection('users').doc(uid).update({
+                    profilePic: url,
+                  });
+                });
+              });
+            }}
+            accept="image/png, image/jpeg"
+          />
+        )}
+        <img
+          role="presentation"
+          onClick={() => {
+            if (!isOtherUser) {
+              document.getElementById('profilePicUploader').click();
+            }
+          }}
+          src={profilePic || dpPlaceholder}
+          alt=""
+          className="dp-image"
+        />
+      </div>
+      <div className="col-12 col-md-8">
+        <div className="d-flex align-items-center">
+          <h3 className="username">
+            {username}
+          </h3>
+          {!isOtherUser && <Button onClick={props.logout} className="btn btn-sm btn-outline-secondary ml-3">Logout</Button> }
+        </div>
+        <div className="stats">
+          <div className="stat-item">
+            <h4>{posts}</h4>
+            <span>Posts</span>
+          </div>
+          <div className="stat-item">
+            <h4>{followers}</h4>
+            <span>Followers</span>
+          </div>
+          <div className="stat-item">
+            <h4>{following}</h4>
+            <span>Followings</span>
+          </div>
+        </div>
+        <div className="user-bio">
+          <p>{bio || 'User has no bio'}</p>
+        </div>
+        <div className="action-btns">
+          {isOtherUser && <Button className="btn btn-sm btn-primary px-5">Follow</Button>}
+        </div>
+      </div>
     </div>
-    <div className="col-12 col-md-8">
-      <div className="d-flex align-items-center">
-        <h3 className="username">
-          {username}
-        </h3>
-        <Button onClick={props.logout} className="btn btn-sm btn-outline-secondary ml-3">Logout</Button>
-      </div>
-      <div className="stats">
-        <div className="stat-item">
-          <h4>{posts}</h4>
-          <span>Posts</span>
-        </div>
-        <div className="stat-item">
-          <h4>{followers}</h4>
-          <span>Followers</span>
-        </div>
-        <div className="stat-item">
-          <h4>{following}</h4>
-          <span>Followings</span>
-        </div>
-      </div>
-      <div className="user-bio">
-        <p>{bio || 'User has no bio'}</p>
-      </div>
-      <div className="action-btns">
-        <Button className="btn btn-sm btn-primary px-5">Follow</Button>
-      </div>
-    </div>
-  </div>
-);
+  );
+};
+
+UserInfo.defaultProps = {
+  userData: null,
+  isOtherUser: false,
+};
 
 UserInfo.propTypes = {
   logout: PropTypes.func.isRequired,
-  userData: PropTypes.object.isRequired,
+  profileData: PropTypes.object.isRequired,
+  userData: PropTypes.object,
+  isOtherUser: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  userData: state.auth.userData,
+  profileData: state.auth.userData,
 });
 
 const mapDispatchToProps = (dispatch) => ({
