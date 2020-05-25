@@ -70,13 +70,12 @@ export const register = (formData) => async (dispatch) => {
       username: String(name).toLowerCase(),
       emailId,
       profilePic: null,
-      followers: 0,
-      following: 0,
+      followers: [],
+      following: [],
       posts: 0,
       timeStamp: new Date().toISOString(),
       bio: null,
       isPrivate: true,
-      friends: [],
     });
     result.user.sendEmailVerification();
     dispatch({

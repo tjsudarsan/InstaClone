@@ -9,6 +9,7 @@ import { storage, db } from '../../lib/firebase';
 import dpPlaceholder from '../../assets/profile-placeholder.jpg';
 
 import { logout } from '../../redux/actions/actions-auth';
+import { followAction } from '../../redux/actions/actions-profile';
 
 const UserInfo = ({
   profileData,
@@ -30,6 +31,7 @@ const UserInfo = ({
     profilePic,
     posts,
     uid,
+    followBtnText,
   } = details;
 
   return (
@@ -79,11 +81,11 @@ const UserInfo = ({
             <span>Posts</span>
           </div>
           <div className="stat-item">
-            <h4>{followers}</h4>
+            <h4>{followers.length}</h4>
             <span>Followers</span>
           </div>
           <div className="stat-item">
-            <h4>{following}</h4>
+            <h4>{following.length}</h4>
             <span>Followings</span>
           </div>
         </div>
@@ -91,7 +93,14 @@ const UserInfo = ({
           <p>{bio || 'User has no bio'}</p>
         </div>
         <div className="action-btns">
-          {isOtherUser && <Button className="btn btn-sm btn-primary px-5">Follow</Button>}
+          {isOtherUser && (
+          <Button
+            className="btn btn-sm btn-primary px-5"
+            onClick={props.followAction}
+          >
+            {followBtnText}
+          </Button>
+          )}
         </div>
       </div>
     </div>
@@ -108,6 +117,7 @@ UserInfo.propTypes = {
   profileData: PropTypes.object.isRequired,
   userData: PropTypes.object,
   isOtherUser: PropTypes.bool,
+  followAction: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -116,6 +126,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   logout: () => dispatch(logout()),
+  followAction: () => dispatch(followAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);

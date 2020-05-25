@@ -48,7 +48,10 @@ class Profile extends Component {
           <>
             <UserInfo isOtherUser={!!this.props.userDetails} userData={this.props.userDetails} />
             <hr />
-            <Posts />
+            {!(this.props.userDetails && this.props.userDetails.isPrivate)
+              ? <Posts /> : (
+                <p>Private Profile</p>
+              )}
           </>
         )}
       </LayoutContent>

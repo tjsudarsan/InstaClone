@@ -26,4 +26,5 @@ export {
   credentails,
   db,
   storage,
+  firebase as default,
 };
